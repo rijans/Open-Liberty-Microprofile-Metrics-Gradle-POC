@@ -1,0 +1,40 @@
+// The buildscript block must come FIRST — it downloads the Liberty plugin
+// before Gradle processes the rest of this file
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Liberty Gradle plugin 3.9.5 — confirmed working with Gradle 8.x + Java 21
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.9.5'
+    }
+}
+
+// 'war' plugin = knows how to compile Java and package as a WAR file
+// 'liberty' plugin = knows how to download Liberty, start/stop server, deploy app
+apply plugin: 'war'
+apply plugin: 'liberty'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // providedCompile = compile against these APIs but DON'T include in the WAR
+    // Liberty runtime already provides them — including them would cause conflicts
+    providedCompile 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
+    providedCompile 'org.eclipse.microprofile:microprofile:7.1'
+}
+
+war {
+    // This filename MUST match the <webApplication location="..."> in server.xml
+    archiveFileName = 'liberty-poc.war'
+}
+
+liberty {
+    server {
+        name = 'pocServer'
+        // Tell Liberty plugin where our server.xml lives
+        configDirectory = file('src/main/liberty/config')
+    }
+}

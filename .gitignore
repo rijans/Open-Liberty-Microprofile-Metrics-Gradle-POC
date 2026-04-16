@@ -1,0 +1,19 @@
+# Gradle build output
+build/
+.gradle/
+
+# Liberty downloaded runtime — don't push this, it's 100MB+
+# It gets downloaded automatically by ./gradlew libertyRun
+build/wlp/
+
+# Java compiled classes
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+*.iml
+.vscode/

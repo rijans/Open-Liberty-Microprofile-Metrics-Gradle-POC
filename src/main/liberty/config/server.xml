@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="POC Liberty Server">
+
+    <featureManager>
+        <!-- CDI = Contexts and Dependency Injection — needed for @ApplicationScoped -->
+        <feature>cdi-4.0</feature>
+
+        <!-- MicroProfile Health — adds /health, /health/live, /health/ready endpoints -->
+        <feature>mpHealth-4.0</feature>
+
+        <!-- MicroProfile Metrics — adds /metrics endpoint in Prometheus format -->
+        <feature>mpMetrics-5.0</feature>
+    </featureManager>
+
+    <!-- Basic security for /metrics endpoint — required by mpMetrics -->
+    <quickStartSecurity userName="admin" userPassword="adminpwd"/>
+
+    <!-- HTTP on 9080, HTTPS on 9443 -->
+    <variable name="http.port"  defaultValue="9080"/>
+    <variable name="https.port" defaultValue="9443"/>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
+                  httpPort="${http.port}"
+                  httpsPort="${https.port}"/>
+
+    <!-- Deploy our WAR — filename must match war { archiveFileName } in build.gradle -->
+    <webApplication location="liberty-poc.war" contextRoot="/"/>
+
+</server>
