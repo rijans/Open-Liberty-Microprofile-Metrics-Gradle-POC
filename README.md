@@ -327,6 +327,34 @@ Use `./gradlew libertyDev` instead of `libertyRun`. Dev mode watches for file ch
 
 ---
 
+**Example Promtail Config**
+
+```yaml
+server:
+  http_listen_port: 9081
+  grpc_listen_port: 0
+
+positions:
+  filename: /root/promtail/positions.yaml
+
+# Where to send logs — Loki on VM1
+clients:
+  - url: http://192.168.77.90:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: 'liberty-logs-vm3'
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job:      'liberty'
+          instance: 'VM3'
+          version:  'canary'
+          # __path__ tells Promtail which files to read
+          __path__: /root/openliberty-microprofile-metrics-gradle/build/wlp/usr/servers/pocServer/logs/*.log
+```
+
 ## Author
 
 Built as a DevOps POC demonstrating Open Liberty, MicroProfile observability, Gradle build tooling, and NGINX canary deployments on an on-premise 3-VM cluster.
+
