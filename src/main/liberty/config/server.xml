@@ -23,7 +23,8 @@
                   host="*"
                   httpPort="${http.port}"
                   httpsPort="${https.port}"/>
-
+    <accessLogging filepath="${server.output.dir}/logs/http_access.log" 
+                   logFormat="%h %u %t &quot;%r&quot; %s %b" />
     <!-- Deploy our WAR — filename must match war { archiveFileName } in build.gradle -->
     <webApplication location="liberty-poc.war" contextRoot="/"/>
 
