@@ -13,7 +13,9 @@
     </featureManager>
 
     <!-- Basic security for /metrics endpoint — required by mpMetrics -->
-    <quickStartSecurity userName="admin" userPassword="adminpwd"/>
+		<!--  <quickStartSecurity userName="admin" userPassword="adminpwd"/> -->
+<mpMetrics authentication="false"/>
+
 
     <!-- HTTP on 9080, HTTPS on 9443 -->
     <variable name="http.port"  defaultValue="9080"/>
